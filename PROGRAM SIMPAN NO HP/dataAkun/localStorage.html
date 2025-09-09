@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Simulasi Akun (localStorage)</title>
+  <style>
+    body { font-family: system-ui, Arial; background:#f5f7fb; margin:0; display:grid; place-items:center; min-height:100vh; }
+    .card { width: 340px; background:#fff; padding:20px; border-radius:14px; box-shadow:0 8px 24px rgba(0,0,0,.08) }
+    h2 { margin:0 0 12px }
+    .row { margin:8px 0 }
+    input { width:100%; padding:10px; border:1px solid #dfe3ea; border-radius:8px; }
+    button { width:100%; padding:10px; border:0; border-radius:8px; cursor:pointer; margin-top:8px }
+    .primary { background:#2563eb; color:#fff }
+    .ghost { background:#eef2ff }
+    .ok { color:#16a34a }
+    .err { color:#dc2626 }
+    .muted { color:#6b7280; font-size:12px; margin-top:6px }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Daftar / Login</h2>
+
+    <div class="row">
+      <input id="username" type="text" placeholder="Username">
+    </div>
+    <div class="row">
+      <input id="password" type="password" placeholder="Password">
+    </div>
+
+    <button class="primary" id="btnDaftar">Daftar</button>
+    <button class="ghost" id="btnLogin">Login</button>
+    <button class="ghost" id="btnLogout" style="display:none">Logout</button>
+
+    <p id="status" class="muted">Belum ada aksi.</p>
+  </div>
+
+  <script>
+    // ====== KUNCI PENYIMPANAN ======
+    const KEY_USER = 'akun_username';
+    const KEY_PASS = 'akun_password';
+
+    // Ambil elemen
+    const $u = document.getElementById('username');
+    const $p = document.getElementById('password');
+    const $status = document.getElementById('status');
+    const $btnDaftar = document.getElementById('btnDaftar');
+    const $btnLogin = document.getElementById('btnLogin');
+    const $btnLogout = document.getElementById('btnLogout');
+
+    // Tampilkan state login saat halaman dibuka
+    updateUI();
+
+    // ====== Aksi ======
+    $btnDaftar.addEventListener('click', () => {
+      const u = $u.value.trim();
+      const p = $p.value;
+
+      if (!u || !p) return setStatus('Isi username & password dulu.', true);
+
+      // SIMPAN ke localStorage
+      localStorage.setItem(KEY_USER, u);
+      localStorage.setItem(KEY_PASS, p); // catatan: ini tidak aman (contoh belajar)
+
+      setStatus('Akun berhasil dibuat. Silakan login.', false);
+      $u.value = '';
+      $p.value = '';
+    });
+
+    $btnLogin.addEventListener('click', () => {
+      const u = $u.value.trim();
+      const p = $p.value;
+
+      const savedU = localStorage.getItem(KEY_USER);
+      const savedP = localStorage.getItem(KEY_PASS);
+
+      if (!savedU || !savedP) return setStatus('Belum ada akun tersimpan. Daftar dulu.', true);
+
+      if (u === savedU && p === savedP) {
+        localStorage.setItem('is_logged_in', '1');
+        setStatus('Login berhasil 🎉', false);
+      } else {
+        setStatus('Username atau password salah.', true);
+      }
+
+      updateUI();
+    });
+
+    $btnLogout.addEventListener('click', () => {
+      localStorage.removeItem('is_logged_in');
+      setStatus('Sudah logout.', false);
+      updateUI();
+    });
+
+    // ====== Util ======
+    function setStatus(msg, isError) {
+      $status.textContent = msg;
+      $status.className = isError ? 'err' : 'ok';
+    }
+
+    function updateUI() {
+      const loggedIn = localStorage.getItem('is_logged_in') === '1';
+      $btnLogout.style.display = loggedIn ? 'block' : 'none';
+    }
+  </script>
+</body>
+</html>
