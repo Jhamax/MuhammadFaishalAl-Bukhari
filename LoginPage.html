@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="icon" type="image/png" href="DataKu.png">
+    <style>
+        *,
+        html {
+            padding: 0;
+            margin: 0;
+        }
+
+
+        #pembungkusDiv {
+            height: 100vh;
+            width: 100%;
+            max-width: 100vw;
+            background: linear-gradient(90deg, #FFD166 0%, #A8DADC 50%, #1E88E5 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #bagianKiri {
+            box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+            background-color: #FFD166;
+            height: 20em;
+            width: 25em;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom-left-radius: 10px;
+            border-top-left-radius: 10px;
+            user-select: none;
+        }
+
+        #bagianKiri #logo {
+            width: 180px;
+            user-select: none;
+            -webkit-user-drag: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            cursor: pointer;
+        }
+
+        #bagianKanan {
+            box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+            background-color: #1E88E5;
+            height: 20em;
+            width: 25em;
+            display: block;
+            justify-items: center;
+            align-content: center;
+            border-bottom-right-radius: 10px;
+            border-top-right-radius: 10px;
+            user-select: none;
+        }
+
+        #pembungkusUsername,
+        #pembungkusPassword {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        #bagianKanan input {
+            width: 100%;
+            padding: 10px 10px 10px 30px;
+            border-radius: 5px;
+            border: 2px solid #ccc;
+            outline: none;
+            box-sizing: border-box;
+            transition: border-color 1s ease;
+        }
+
+        #divLogin {
+            max-width: 15em;
+            width: 15em;
+            display: block;
+        }
+
+        #bagianKanan input:focus {
+            border-color: black;
+        }
+
+        #bagianKanan input:focus::placeholder {
+            color: transparent;
+        }
+
+        #bagianKanan .fa-user {
+            position: absolute;
+            top: 50%;
+            right: 90%;
+            transform: translateY(-50%);
+            color: #bbb;
+            display: block;
+            pointer-events: none;
+        }
+
+        #bagianKanan .fa-lock {
+            position: absolute;
+            top: 50%;
+            right: 90%;
+            transform: translateY(-50%);
+            color: #bbb;
+            display: block;
+            pointer-events: none;
+        }
+
+
+
+        #bagianKanan h1 {
+            color: white;
+            font-family: Arial, sans-serif;
+            justify-self: center;
+            margin-bottom: 15px;
+            font-size: medium;
+        }
+
+        #bagianKanan button {
+            padding: 10px;
+            width: 100%;
+            box-sizing: border-box;
+            cursor: pointer;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            transition: background-color 0.6s ease;
+        }
+
+        #bagianKanan button:hover {
+            background: #FFD166;
+        }
+
+        #pembungkusTombol {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* POP UP */
+        #divPembungkusPopUp {
+            background: rgba(0, 0, 0, 0.5);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            visibility: hidden;
+        }
+
+        #formPopUp {
+            box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+            background-color: #1E88E5;
+            height: 26em;
+            max-width: 25em;
+            width: 23em;
+            display: block;
+            justify-items: center;
+            align-content: center;
+            border-radius: 10px;
+            user-select: none;
+            padding: 20px;
+        }
+
+        #formPopUp input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 2px solid #ccc;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        #formPopUp input:focus {
+            border-color: black;
+        }
+
+        #formPopUp input:valid {
+            border-color: greenyellow;
+        }
+
+        #formPopUp input:focus::placeholder {
+            color: transparent;
+        }
+
+        #pembungkusX {
+            width: 24em;
+            height: 1em;
+            top: -33px;
+            position: relative;
+        }
+
+        #pembungkusX .fa-xmark {
+            position: absolute;
+            right: 1%;
+            top: -40%;
+            box-sizing: border-box;
+            cursor: pointer;
+            color: white;
+            font-size: 20px;
+            transition: color 0.6s ease;
+        }
+
+        #pembungkusX .fa-xmark:hover{
+            color: black;
+        }
+
+        #form {
+            width: 20em;
+            position: relative;
+        }
+
+        #form h1 {
+            color: white;
+            font-family: Arial, sans-serif;
+            justify-self: center;
+            margin-bottom: 15px;
+            font-size: larger;
+        }
+
+        #footerForm {
+            position: absolute;
+            right: 0;
+            display: flex;
+            gap: 10px;
+        }
+
+        #footerForm button {
+            padding: 10px;
+            width: 100%;
+            cursor: pointer;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            transition: background-color 0.6s ease;
+        }
+
+        #footerForm button:hover {
+            background: #FFD166;
+        }
+
+        #pembungkusNamaDepan,
+        #pembungkusNamaBelakang,
+        #pembungkusUsername-popup {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        #pembungkusPassword-popup,
+        #pembungkusConfirmPassword-popup {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+
+        /* POP UP */
+    </style>
+</head>
+
+<body>
+    <div id="pembungkusDiv">
+        <div id="bagianKiri">
+            <img src="DataKu.png" id="logo" />
+        </div>
+
+        <div id="bagianKanan">
+            <div id="divLogin">
+                <h1>Login to your account</h1>
+
+                <div id="pembungkusUsername">
+                    <input type="text" placeholder="Username" onkeypress="return event.charCode != 32">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+
+                <div id="pembungkusPassword">
+                    <input type="password" placeholder="Password" onkeypress="return event.charCode != 32">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+
+                <div id="pembungkusTombol">
+                    <div id="pembungkusTombolLogin">
+                        <button onclick="window.location.href = 'index.html'">Login</button>
+                    </div>
+
+                    <div id="pembungkusTombolDaftar">
+                        <button id="signupBtn">Sign Up</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div id="divPembungkusPopUp">
+            <div id="formPopUp">
+
+                <div id="pembungkusX">
+                    <i class="fa-solid fa-xmark" id="closeBtn"></i>
+                </div>
+
+
+                <div id="form">
+
+                    <h1>Create your account here</h1>
+
+                    <div id="pembungkusNamaDepan">
+                        <input type="text" placeholder="Nama Depan" onkeypress="return event.charCode != 32" required>
+                    </div>
+
+                    <div id="pembungkusNamaBelakang">
+                        <input type="text" placeholder="Nama Belakang" onkeypress="return event.charCode != 32"
+                            required>
+                    </div>
+
+                    <div id="pembungkusUsername-popup">
+                        <input type="text" placeholder="Username" onkeypress="return event.charCode != 32" required>
+                    </div>
+
+                    <div id="pembungkusPassword-popup">
+                        <input type="password" placeholder="Password" onkeypress="return event.charCode != 32"
+                             required>
+                    </div>
+
+                    <div id="pembungkusConfirmPassword-popup">
+                        <input type="password" placeholder="Confirm Password" onkeypress="return event.charCode != 32"
+                             required>
+                    </div>
+
+                    <div id="footerForm">
+                        <button id="batalBtn">Batal</button>
+                        <button id="konfirmasiBtn">Konfirmasi</button>
+                    </div>
+
+                </div>
+
+
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.getElementById('logo').addEventListener('click', function () {
+            window.location.href = 'loginPage.html';
+        });
+
+        document.getElementById('signupBtn').addEventListener('click', function () {
+            document.getElementById('divPembungkusPopUp').style.visibility = 'visible';
+        });
+
+        document.getElementById('closeBtn').addEventListener('click', function () {
+            document.getElementById('divPembungkusPopUp').style.visibility = 'hidden';
+        });
+
+        document.getElementById('batalBtn').addEventListener('click', function () {
+            document.getElementById('divPembungkusPopUp').style.visibility = 'hidden';
+        });
+
+    </script>
+</body>
+
+</html>
